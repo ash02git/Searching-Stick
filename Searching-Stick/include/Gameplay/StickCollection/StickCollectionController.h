@@ -16,7 +16,7 @@ namespace Gameplay
 			StickCollectionView* collection_view;
 			StickCollectionModel* collection_model;
 			std::vector<Stick*> sticks;
-			SearchType search_type;
+			Collection::SearchType search_type;
 
 			void initializeSticks();
 			float calculateStickWidth();

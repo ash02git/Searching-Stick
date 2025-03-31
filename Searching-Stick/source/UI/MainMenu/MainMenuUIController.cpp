@@ -6,6 +6,8 @@
 #include "Global/Config.h"
 #include "Global/ServiceLocator.h"
 
+#include <iostream>
+
 namespace UI
 {
     namespace MainMenu
@@ -75,6 +77,7 @@ namespace UI
         void MainMenuUIController::linearSearchButtonCallback()
         {
             GameService::setGameState(GameState::GAMEPLAY);
+            std::cout << "Game state set to Gameplay\n";
             ServiceLocator::getInstance()->getSoundService()->playSound(SoundType::BUTTON_CLICK);
         }
 
