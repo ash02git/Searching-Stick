@@ -30,3 +30,8 @@ void Gameplay::GameplayService::reset()
 {
 	gameplay_controller->reset();
 }
+
+void Gameplay::GameplayService::searchElement(Collection::SearchType search_type)
+{
+	collection_controller->searchElement(search_type);
+}
