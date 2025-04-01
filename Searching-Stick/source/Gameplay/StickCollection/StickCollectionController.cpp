@@ -126,6 +126,7 @@ namespace Gameplay
 			switch (search_type)
 			{
 			case Gameplay::Collection::SearchType::LINEAR_SEARCH:
+				time_complexity = "O(n)";
 				current_operation_delay = collection_model->linear_search_delay;
 
 				search_thread = std::thread(&StickCollectionController::processLinearSearch, this);
@@ -148,6 +149,12 @@ namespace Gameplay
 		{
 			return current_operation_delay;
 		}
+
+		sf::String StickCollectionController::getTimeComplexity()
+		{
+			return time_complexity;
+		}
+		
 		void StickCollectionController::initializeSticks()
 		{
 			float rectangle_width = calculateStickWidth();			// calculate width
