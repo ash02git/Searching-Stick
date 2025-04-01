@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <thread>
 
 namespace Gameplay
 {
@@ -20,8 +21,12 @@ namespace Gameplay
 
 			Stick* stick_to_search;
 
+			std::thread search_thread;
+
 			int number_of_comparisons;
 			int number_of_array_access;
+
+			int current_operation_delay;
 
 			void initializeSticks();
 			float calculateStickWidth();
@@ -42,6 +47,9 @@ namespace Gameplay
 
 			void processLinearSearch();
 
+			void joinThreads();
+			void processSearchThreadState();
+
 		public:
 			StickCollectionController();
 			~StickCollectionController();
@@ -60,6 +68,8 @@ namespace Gameplay
 
 			int getNumberOfComparisons();
 			int getNumberOfArrayAccess();
+
+			int getDelayMilliseconds();
 		};
 	}
 }
