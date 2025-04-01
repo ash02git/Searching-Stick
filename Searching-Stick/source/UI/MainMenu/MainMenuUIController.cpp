@@ -79,6 +79,7 @@ namespace UI
             GameService::setGameState(GameState::GAMEPLAY);
             std::cout << "Game state set to Gameplay\n";
             ServiceLocator::getInstance()->getSoundService()->playSound(SoundType::BUTTON_CLICK);
+            ServiceLocator::getInstance()->getGameplayService()->searchElement(Gameplay::Collection::SearchType::LINEAR_SEARCH);
         }
 
         void MainMenuUIController::binarySearchButtonCallback()
