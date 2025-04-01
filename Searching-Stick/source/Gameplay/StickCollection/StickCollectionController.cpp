@@ -4,6 +4,8 @@
 #include "../../include/Gameplay/StickCollection/Stick.h"
 #include "../../include/Global/ServiceLocator.h"
 
+#include <random>
+
 namespace Gameplay
 {
 	namespace Collection
@@ -20,6 +22,29 @@ namespace Gameplay
 			
 			delete(collection_model);
 			delete(collection_view);
+		}
+		void StickCollectionController::processLinearSearch()
+		{
+			for (int i = 0; i < sticks.size(); i++)
+			{
+
+				number_of_array_access += 1;
+				number_of_comparisons++;
+
+				Global::ServiceLocator::getInstance()->getSoundService()->playSound(Sound::SoundType::COMPARE_SFX);
+
+				if (sticks[i] == stick_to_search)
+				{
+					stick_to_search->stick_view->setFillColor(collection_model->found_element_color);
+					stick_to_search = nullptr;
+					return;
+				}
+				else
+				{
+					sticks[i]->stick_view->setFillColor(collection_model->processing_element_color);
+					sticks[i]->stick_view->setFillColor(collection_model->element_color);
+				}
+			}
 		}
 		StickCollectionController::StickCollectionController()
 		{
@@ -49,8 +74,13 @@ namespace Gameplay
 		}
 		void StickCollectionController::reset()
 		{
+			shuffleSticks();
+			resetSearchStick();
+			resetVariables();
+			
 			updateSticksPosition();
 			resetSticksColor();
+
 		}
 		SearchType StickCollectionController::getSearchType()
 		{
@@ -62,7 +92,24 @@ namespace Gameplay
 		}
 		void StickCollectionController::searchElement(SearchType search_type)
 		{
-			//do later
+			switch (search_type)
+			{
+			case Gameplay::Collection::SearchType::LINEAR_SEARCH:
+				processLinearSearch();
+				break;
+			case Gameplay::Collection::SearchType::BINARY_SEARCH:
+				break;
+			default:
+				break;
+			}
+		}
+		int StickCollectionController::getNumberOfComparisons()
+		{
+			return number_of_comparisons;
+		}
+		int StickCollectionController::getNumberOfArrayAccess()
+		{
+			return number_of_array_access;
 		}
 		void StickCollectionController::initializeSticks()
 		{
@@ -101,6 +148,16 @@ namespace Gameplay
 
 			return rectangle_width;
 		}
+		void StickCollectionController::shuffleSticks()
+		{
+			// declare a variable 'device' of type std::random_device
+	// 'std::random_device is a random number generator that produces non-deterministic random numbers.
+			std::random_device device;
+			std::mt19937 random_engine(device());
+
+			// shuffle the elements in the sticks collection using the random engine
+			std::shuffle(sticks.begin(), sticks.end(), random_engine);
+		}
 		void StickCollectionController::updateSticksPosition()
 		{
 			for (int i = 0; i < sticks.size(); i++)
@@ -119,6 +176,16 @@ namespace Gameplay
 		{
 			for (int i = 0; i < sticks.size(); i++)
 				sticks[i]->stick_view->setFillColor(collection_model->element_color);
+		}
+		void StickCollectionController::resetSearchStick()
+		{
+			stick_to_search = sticks[std::rand() % sticks.size()];
+			stick_to_search->stick_view->setFillColor(collection_model->search_element_color);
+		}
+		void StickCollectionController::resetVariables()
+		{
+			number_of_comparisons = 0;
+			number_of_array_access = 0;
 		}
 		void StickCollectionController::initializeSticksArray()
 		{
