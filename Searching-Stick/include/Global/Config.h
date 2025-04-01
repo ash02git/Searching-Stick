@@ -11,6 +11,7 @@ namespace Global
 
 		static const sf::String linear_search_button_texture_path;
 		static const sf::String binary_search_button_texture_path;
+		static const sf::String menu_button_large_texture_path;
 		static const sf::String quit_button_texture_path;
 
 		static const sf::String bubble_bobble_font_path;
